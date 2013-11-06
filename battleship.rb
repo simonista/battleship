@@ -10,63 +10,42 @@ Game = Struct.new(
 )
 
 Torpedo = Struct.new(
-  :coord, # Coordinate
-  :hit?   # bool
-)
-
-Coordinate = Struct.new(
-  :x, # int
-  :y  # int
+  :x,   # int
+  :y,   # int
+  :hit? # bool
 )
 
 Ship = Struct.new(
-  :type,  # ShipType
-  :start, # Coordinate
-  :end,   # Coordinate
-  :alive? # bool
+  :type,    # symbol
+  :start_x, # int
+  :start_y, # int
+  :end_x,   # int
+  :end_y,   # int
+  :alive?   # bool
 )
 
-ShipType = Struct.new(
-  :name,  # symbol [:little]
-  :length # int
-)
-
-
-# example coordinates
-
-origin = Coordinate.new(0, 0)
-little_ship_start = origin
-little_ship_end = Coordinate.new(0,2)
-
-# example ship types
-
-little_ship_type = ShipType.new(:little, 2)
+SHIP_TYPES = {
+  :LITTLE => 2
+}
 
 # example ships
 
-p1_little_ship = Ship.new(
-  little_ship_type,
-  little_ship_start,
-  little_ship_end,
-  true
-)
+p1_little_ship = Ship.new(:LITTLE, 0, 0, 0, 1, true)
+p2_little_ship = Ship.new(:LITTLE, 0, 0, 0, 1, true)
 
-p2_little_ship = Ship.new(
-  little_ship_type,
-  little_ship_start,
-  little_ship_end,
-  true
-)
+# example torpedos
+
+p1_torpedo_1 = Torpedo.new(0, 2, false)
 
 # example games
 
 little_game = Game.new(
   3,
   3,
-  :p1,
+  :p2,
   true,
   [p1_little_ship],
-  [],
+  [p1_torpedo_1],
   [p2_little_ship],
   []
 )
