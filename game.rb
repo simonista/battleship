@@ -1,3 +1,46 @@
+require 'json'
+
+TEST = <<-JSON
+{
+  'width': 5,
+  'height': 5,
+  'turn': 'p1',
+  'active': true,
+  'p1_ships': [
+    {
+      'coords': [
+        {
+          'row': 0,
+          'col': 0
+        },
+        {
+          'row': 0,
+          'col': 1
+        }
+      ],
+      'alive': true
+    }
+  ],
+  'p1_torpedos': [],
+  'p2_ships': [
+    {
+      'coords': [
+        {
+          'row': 2,
+          'col': 2
+        },
+        {
+          'row': 3,
+          'col': 2
+        }
+      ],
+      'alive': true
+    }
+  ],
+  'p2_torpedos': [],
+}
+JSON
+
 class Game
 
   attr_reader :width, :height, :turn, :active, :p1_ships, :p1_torpedos, :p2_ships, :p2_torpedos
@@ -11,6 +54,14 @@ class Game
     @p1_torpedos = []
     @p2_ships = []
     @p2_torpedos = []
+  end
+
+  def self.from_json(json)
+    game_hash = JSON.parse(json)
+    game = Game.new(game_hash['width'], game_hash['height'])
+    game.p1_ships = game_hash['p1_ships'].map{|s| Ship.from_hash(s)}
+    game.p2_ships = game_hash['p2_ships'].map{|s| Ship.from_hash(s)}
+    game
   end
 
   def add_ship(player, ship)
