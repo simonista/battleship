@@ -18,4 +18,12 @@ class Ship
   def self.from_hash(hash)
     Ship.new(nil, hash['coords'])
   end
+
+  def hit_by_torpedo?(torpedo)
+    hit = coords.detect do |coord|
+      coord['row'] == torpedo.row && coord['col'] == torpedo.col
+    end
+    torpedo.hit! if hit
+    hit
+  end
 end

@@ -1,5 +1,7 @@
 require 'json'
 
+require_relative 'torpedo'
+
 TEST = <<-JSON
 {
   'width': 5,
@@ -57,11 +59,31 @@ class Game
   end
 
   def self.from_json(json)
-    game_hash = JSON.parse(json)
-    game = Game.new(game_hash['width'], game_hash['height'])
-    game.p1_ships = game_hash['p1_ships'].map{|s| Ship.from_hash(s)}
-    game.p2_ships = game_hash['p2_ships'].map{|s| Ship.from_hash(s)}
+    from_hash(JSON.parse(json))
+  end
+
+  def self.from_hash(hash)
+    game = Game.new(hash['width'], hash['height'])
+    game.p1_ships = hash['p1_ships'].map{|s| Ship.from_hash(s)}
+    game.p2_ships = hash['p2_ships'].map{|s| Ship.from_hash(s)}
     game
+  end
+
+  def take_turn(row, col)
+    # see if this is a hit
+    ships = opponent_ships_for_player(@turn)
+    torpedo = Torpedo.new(row, col)
+    hit = ships.detect{ |s| s.hit_by_torpedo?(torpedo) }
+
+    add_torpedo(@turn, torpedo)
+
+    toggle_turn!
+
+    torpedo
+  end
+
+  def toggle_turn!
+    @turn = (@turn == :p1 ? :p2 : p1)
   end
 
   def add_ship(player, ship)
@@ -74,6 +96,10 @@ class Game
 
   def ships_for_player(player)
     player == :p1 ? @p1_ships : @p2_ships
+  end
+
+  def opponent_ships_for_player(player)
+    player == :p1 ? @p2_ships : @p1_ships
   end
 
   def torpedos_for_player(player)

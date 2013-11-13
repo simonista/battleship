@@ -1,11 +1,7 @@
 require_relative 'game'
 require_relative 'ship'
+require_relative 'torpedo'
 
-Torpedo = Struct.new(
-  :x,   # int
-  :y,   # int
-  :hit? # bool
-)
 
 
 g = Game.new(5,5)
