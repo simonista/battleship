@@ -1,4 +1,5 @@
-require './player'
+require_relative 'player'
+require_relative 'game'
 
 def read_input
   if ARGV.empty?
@@ -22,6 +23,7 @@ class CLI
   def start
     @players << get_player(1)
     @players << get_player(2)
+    @game = Game.scaffold
     @current_player_index = rand(@players.size)
     loop do
       action = prompt_turn
@@ -46,15 +48,52 @@ class CLI
   end
 
   def prompt_turn
-    dump_boards
+    display
     print "#{current_player}'s turn: "
     read_input.chomp
   end
 
-  def dump_boards
+  def game_player_id(player)
+    player == @players.first ? :p1 : :p2
+  end
+
+  def display
+    display_player(current_player)
+  end
+
+  def display_player(player)
+    game_id = player == @players.first ? :p1 : :p2
+    other_game_id = game_id == :p1 ? :p2 : :p1
+    launched = @game.torpedos_for_player(game_id)
+    received = @game.torpedos_for_player(other_game_id)
+
+    display_side([], launched)
+    puts '-' * @game.width
+    display_side(@game.ships_for_player(game_id), received)
+  end
+
+  def display_side(ships, torpedos)
+    @game.height.times do |row|
+      @game.width.times do |col|
+        t_hit = torpedos.detect{|t| t.row == row && t.col == col}
+        s_hit = ships.detect{|s| s.coords.include?({"row" => row, "col" => col})}
+        if t_hit && s_hit
+          print 'x'
+        elsif t_hit
+          print 'o'
+        elsif s_hit
+          print 's'
+        else
+          print '.'
+        end
+      end
+      puts
+    end
   end
 
   def execute(action)
+    row, col = action.split(/,/).map(&:strip).map(&:to_i)
+    @game.take_turn(row, col)
   end
 end
 
