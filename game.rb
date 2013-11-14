@@ -4,47 +4,6 @@ require_relative 'torpedo'
 
 require_relative 'torpedo'
 
-TEST = <<-JSON
-{
-  'width': 5,
-  'height': 5,
-  'turn': 'p1',
-  'active': true,
-  'p1_ships': [
-    {
-      'coords': [
-        {
-          'row': 0,
-          'col': 0
-        },
-        {
-          'row': 0,
-          'col': 1
-        }
-      ],
-      'alive': true
-    }
-  ],
-  'p1_torpedos': [],
-  'p2_ships': [
-    {
-      'coords': [
-        {
-          'row': 2,
-          'col': 2
-        },
-        {
-          'row': 3,
-          'col': 2
-        }
-      ],
-      'alive': true
-    }
-  ],
-  'p2_torpedos': [],
-}
-JSON
-
 class Game
 
   attr_accessor :width, :height, :turn, :active, :p1_ships, :p1_torpedos, :p2_ships, :p2_torpedos
@@ -93,6 +52,10 @@ class Game
     torpedo
   end
 
+  def active_player
+    turn
+  end
+
   def toggle_turn!
     @turn = (@turn == :p1 ? :p2 : :p1)
   end
@@ -103,6 +66,10 @@ class Game
 
   def add_torpedo(player, torpedo)
     torpedos_for_player(player) << torpedo
+  end
+
+  def torpedos_for(player)
+    return p1_torpedos
   end
 
   def ships_for_player(player)
