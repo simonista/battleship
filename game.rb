@@ -47,7 +47,7 @@ JSON
 
 class Game
 
-  attr_reader :width, :height, :turn, :active, :p1_ships, :p1_torpedos, :p2_ships, :p2_torpedos
+  attr_accessor :width, :height, :turn, :active, :p1_ships, :p1_torpedos, :p2_ships, :p2_torpedos
 
   def self.scaffold
     g = Game.new(5,5)
@@ -94,7 +94,7 @@ class Game
   end
 
   def toggle_turn!
-    @turn = (@turn == :p1 ? :p2 : p1)
+    @turn = (@turn == :p1 ? :p2 : :p1)
   end
 
   def add_ship(player, ship)
