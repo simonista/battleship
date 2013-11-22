@@ -44,6 +44,7 @@ class Game
       player.game = self
       game.players << player
     end
+    game.turn = (hash['turn'] == game.players.first.name ? :p1 : :p2)
     game
   end
 

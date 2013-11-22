@@ -5,9 +5,6 @@ require 'minitest/autorun'
 
 describe Game do
   let(:game) {Game.from_json(TEST_GAME)}
-  before do
-    game.start
-  end
 
   it "can be created from json" do
     game.must_be_instance_of Game
