@@ -1,8 +1,11 @@
 class Player
-  attr_reader :name
+  attr_reader :game, :name, :ships, :torpedos
 
-  def initialize(name)
+  def initialize(game, name)
+    @game = game
     @name = name
+    @ships = []
+    @torpedos = []
   end
 
   def to_s
