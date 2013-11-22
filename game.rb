@@ -70,13 +70,10 @@ class Game
 
   def toggle_turn!
     @turn = (@turn == :p1 ? :p2 : :p1)
-<<<<<<< HEAD
-=======
   end
 
   def current_player
     @turn == :p1 ? @players.first : @players.last
->>>>>>> clean up cli and player logic in game
   end
 
   def add_ship(player, ship)
@@ -91,17 +88,16 @@ class Game
     @players.first.ships
   end
 
-<<<<<<< HEAD
   def torpedos_for(player)
-    return p1_torpedos
+    player.torpedos
   end
 
   def ships_for_player(player)
-    player == :p1 ? @p1_ships : @p2_ships
-=======
+    player.ships
+  end
+
   def p1_torpedos
     @players.first.torpedos
->>>>>>> clean up cli and player logic in game
   end
 
   def p2_ships
