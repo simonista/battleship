@@ -28,7 +28,7 @@ TEST_GAME = <<-JSON
       ],
       "torpedos": [
         {"row": 2, "col": 3}
-      ],
+      ]
     },
     {
       "name": "Simon",
@@ -50,9 +50,9 @@ TEST_GAME = <<-JSON
       ],
       "torpedos": [
         {"row": 0, "col": 1}
-      ],
+      ]
     }
-  ]
-  "turn": "Jacob",
+  ],
+  "turn": "Jacob"
 }
 JSON

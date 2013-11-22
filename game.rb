@@ -6,7 +6,7 @@ require_relative 'torpedo'
 
 class Game
 
-  attr_accessor :width, :height, :turn, :active
+  attr_accessor :width, :height, :turn, :active, :players
 
   def scaffold
     @players.first.ships << Ship.new(:LITTLE, [{"row" => 0, "col" => 0}, {"row" => 0, "col" => 1}])
@@ -42,7 +42,7 @@ class Game
     hash['players'].each do |player|
       player = Player.from_hash(player)
       player.game = self
-      @players << player
+      game.players << player
     end
     game
   end
@@ -63,10 +63,6 @@ class Game
     toggle_turn!
 
     torpedo
-  end
-
-  def active_player
-    turn
   end
 
   def toggle_turn!

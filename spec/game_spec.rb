@@ -5,16 +5,16 @@ require 'minitest/autorun'
 
 describe Game do
   let(:game) {Game.from_json(TEST_GAME)}
+  before do
+    game.start
+  end
+
   it "can be created from json" do
     game.must_be_instance_of Game
   end
 
   it "can look up active player" do
-    game.active_player.must_be_instance_of Player
-  end
-
-  it "can look up torpedos by player" do
-    game.torpedos_for(game.active_player).must_be_instance_of Array
+    game.current_player.must_be_instance_of Player
   end
 
   describe "#take_turn" do
