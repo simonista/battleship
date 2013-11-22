@@ -1,5 +1,5 @@
 class Player
-  attr_reader :game, :name, :ships, :torpedos
+  attr_accessor :game, :name, :ships, :torpedos
 
   def initialize(game, name)
     @game = game
@@ -10,5 +10,12 @@ class Player
 
   def to_s
     name
+  end
+
+  def self.from_hash(hash)
+    player = Player.new(nil, name)
+    player.ships = hash['ships'].map{|s| Ship.from_hash(s)}
+    player.torpedos = hash['torpedos'].map{|t| Torpedo.from_hash(t)}
+    player
   end
 end

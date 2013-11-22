@@ -9,10 +9,10 @@ class Game
   attr_accessor :width, :height, :turn, :active
 
   def scaffold
-    add_ship(@players.first, Ship.new(:LITTLE, [{"row" => 0, "col" => 0}, {"row" => 0, "col" => 1}]))
-    add_ship(@players.last, Ship.new(:LITTLE, [{"row" => 1, "col" => 2}, {"row" => 2, "col" => 2}]))
-    add_torpedo(@players.first, Torpedo.new(2, 3))
-    add_torpedo(@players.last, Torpedo.new(0, 1))
+    @players.first.ships << Ship.new(:LITTLE, [{"row" => 0, "col" => 0}, {"row" => 0, "col" => 1}])
+    @players.last.ships << Ship.new(:LITTLE, [{"row" => 1, "col" => 2}, {"row" => 2, "col" => 2}])
+    @players.first.torpedos << Torpedo.new(2, 3)
+    @players.last.torpedos << Torpedo.new(0, 1)
   end
 
   def initialize(width, height)
@@ -39,10 +39,11 @@ class Game
 
   def self.from_hash(hash)
     game = Game.new(hash['width'], hash['height'])
-    p1 = game.add_player(hash['p1_name'])
-    p2 = game.add_player(hash['p2_name'])
-    p1.ships = hash['p1_ships'].map{|s| Ship.from_hash(s)}
-    p2.ships = hash['p2_ships'].map{|s| Ship.from_hash(s)}
+    hash['players'].each do |player|
+      player = Player.from_hash(player)
+      player.game = self
+      @players << player
+    end
     game
   end
 
@@ -57,7 +58,7 @@ class Game
     hit = ships.detect{ |s| s.hit_by_torpedo?(torpedo) }
     torpedo.hit! if hit
 
-    add_torpedo(current_player, torpedo)
+    current_player.torpedos << torpedo
 
     toggle_turn!
 
@@ -74,37 +75,5 @@ class Game
 
   def current_player
     @turn == :p1 ? @players.first : @players.last
-  end
-
-  def add_ship(player, ship)
-    player.ships << ship
-  end
-
-  def add_torpedo(player, torpedo)
-    player.torpedos << torpedo
-  end
-
-  def p1_ships
-    @players.first.ships
-  end
-
-  def torpedos_for(player)
-    player.torpedos
-  end
-
-  def ships_for_player(player)
-    player.ships
-  end
-
-  def p1_torpedos
-    @players.first.torpedos
-  end
-
-  def p2_ships
-    @players.last.ships
-  end
-
-  def p2_torpedos
-    @players.last.torpedos
   end
 end

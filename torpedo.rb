@@ -10,4 +10,8 @@ class Torpedo
   def hit!
     @hit = true
   end
+
+  def self.from_hash(hash)
+    Torpedo.new(hash['row'], hash['col'])
+  end
 end

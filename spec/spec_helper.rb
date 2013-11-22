@@ -6,39 +6,53 @@ TEST_GAME = <<-JSON
 {
   "width": 5,
   "height": 5,
-  "turn": "p1",
   "active": true,
-  "p1_ships": [
+  "players": [
     {
-      "coords": [
+      "name": "Jacob",
+      "ships": [
         {
-          "row": 0,
-          "col": 0
-        },
-        {
-          "row": 0,
-          "col": 1
+          "type": "LITTLE",
+          "coords": [
+            {
+              "row": 0,
+              "col": 0
+            },
+            {
+              "row": 0,
+              "col": 1
+            }
+          ],
+          "alive": true
         }
       ],
-      "alive": true
-    }
-  ],
-  "p1_torpedos": [],
-  "p2_ships": [
+      "torpedos": [
+        {"row": 2, "col": 3}
+      ],
+    },
     {
-      "coords": [
+      "name": "Simon",
+      "ships": [
         {
-          "row": 2,
-          "col": 2
-        },
-        {
-          "row": 3,
-          "col": 2
+          "type": "LITTLE",
+          "coords": [
+            {
+              "row": 2,
+              "col": 2
+            },
+            {
+              "row": 3,
+              "col": 2
+            }
+          ],
+          "alive": true
         }
       ],
-      "alive": true
+      "torpedos": [
+        {"row": 0, "col": 1}
+      ],
     }
-  ],
-  "p2_torpedos": []
+  ]
+  "turn": "Jacob",
 }
 JSON
