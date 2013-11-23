@@ -8,18 +8,20 @@ module CLI
       print "#{player}'s turn: "
     end
 
-    def display_game(game, player)
-      opponent = game.opponent_for_player(player)
-      display_side(game, [], player.torpedos)
-      puts '-' * game.width
-      display_side(game, player.ships, opponent.torpedos)
+    def display_game(game_state)
+      players = game_state['players']
+      players = players.reverse unless players.first['name'] == game_state['turn']
+      player, opponent = players
+      display_side(game_state, [], player['torpedos'])
+      puts '-' * game_state['width']
+      display_side(game_state, player['ships'], opponent['torpedos'])
     end
 
-    def display_side(game, ships, torpedos)
-      game.height.times do |row|
-        game.width.times do |col|
-          t_hit = torpedos.detect{|t| t.row == row && t.col == col}
-          s_hit = ships.detect{|s| s.coords.include?({"row" => row, "col" => col})}
+    def display_side(game_state, ships, torpedos)
+      game_state['height'].times do |row|
+        game_state['width'].times do |col|
+          t_hit = torpedos.detect{|t| t['row'] == row && t['col'] == col}
+          s_hit = ships.detect{|s| s['coords'].include?({"row" => row, "col" => col})}
           if t_hit && s_hit
             print 'x'
           elsif t_hit
