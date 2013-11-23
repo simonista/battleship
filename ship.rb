@@ -23,7 +23,6 @@ class Ship
     hit = coords.detect do |coord|
       coord['row'] == torpedo.row && coord['col'] == torpedo.col
     end
-    torpedo.hit! if hit
     hit
   end
 end

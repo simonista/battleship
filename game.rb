@@ -48,13 +48,16 @@ class Game
     game
   end
 
-  def opponent_for_player(player)
+  def opponent_for(player)
     @players.detect{ |p| p != player }
   end
 
-  def take_turn(row, col)
+  def take_turn(player_id, row, col)
+    raise unless valid_turn?(player_id)
+    raise unless valid_move?(row, col)
+
     # see if this is a hit
-    ships = opponent_for_player(current_player).ships
+    ships = opponent_for(current_player).ships
     torpedo = Torpedo.new(row, col)
     hit = ships.detect{ |s| s.hit_by_torpedo?(torpedo) }
     torpedo.hit! if hit
@@ -64,6 +67,18 @@ class Game
     toggle_turn!
 
     torpedo
+  end
+
+  def valid_turn?(player_id)
+    player_id == current_player.name
+  end
+
+  def valid_move?(row, col)
+    in_bounds = row >= 0 && row < height && col >= 0 && col < width
+    previous_move = current_player.torpedos.detect do |t|
+      t.row == row && t.col == col
+    end
+    in_bounds && !previous_move
   end
 
   def toggle_turn!
