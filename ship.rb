@@ -16,7 +16,7 @@ class Ship
   end
 
   def self.from_hash(hash)
-    Ship.new(nil, hash['coords'])
+    Ship.new(hash['type'].to_sym, hash['coords'])
   end
 
   def hit_by_torpedo?(torpedo)

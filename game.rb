@@ -22,7 +22,8 @@ class Game
   end
 
   def add_player(name)
-    player = Player.new(self, name)
+    player = Player.new(name)
+    player.game = self
     @players << player
     player
   end
@@ -41,7 +42,7 @@ class Game
     game = Game.new(hash['width'], hash['height'])
     hash['players'].each do |player|
       player = Player.from_hash(player)
-      player.game = self
+      player.game = game
       game.players << player
     end
     game.turn = (hash['turn'] == game.players.first.name ? :p1 : :p2)

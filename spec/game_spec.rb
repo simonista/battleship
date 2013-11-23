@@ -1,8 +1,5 @@
 require_relative "spec_helper"
 
-require 'minitest/spec'
-require 'minitest/autorun'
-
 describe Game do
   let(:game) { Game.from_json(TEST_GAME) }
 
@@ -67,5 +64,51 @@ describe Game do
     it "should be true otherwise" do
       assert game.valid_move?(0,0)
     end
+  end
+
+  describe "imports state" do
+    it "imports game state" do
+      assert game.players.size == 2
+      assert game.height == 6
+      assert game.width == 5
+      assert game.current_player == game.players.first
+    end
+
+    it "imports first player" do
+      player = game.players.first
+      assert player.game == game
+      assert player.name == 'Jacob'
+
+      assert player.ships.size == 1
+      ship = player.ships.first
+      assert ship.type == :LITTLE
+      assert ship.coords == [{ "row" => 0, "col" => 0}, {"row" => 0, "col" => 1}]
+      assert ship.alive
+
+      #assert player.torpedos == [{"row" => 2, "col" => 3}]
+    end
+
+    it "imports second player" do
+      player = game.players.last
+      assert player.game == game
+      assert player.name == 'Simon'
+
+      assert player.ships.size == 1
+      ship = player.ships.first
+      assert ship.type == :BIG
+      assert ship.coords == [{ "row" => 2, "col" => 2}, {"row" => 3, "col" => 2}]
+      assert ship.alive
+
+      #assert player.torpedos == [{"row" => 0, "col" => 1}]
+    end
+  end
+
+
+  it "exports game state" do
+    #json = game.as_json
+    #json['players'].size == 2
+    #json['height'] == game.height
+    #json['width'] == game.width
+    #json['turn'] == game.current_player.name
   end
 end

@@ -5,7 +5,7 @@ require_relative "../ship"
 TEST_GAME = <<-JSON
 {
   "width": 5,
-  "height": 5,
+  "height": 6,
   "active": true,
   "players": [
     {
@@ -34,7 +34,7 @@ TEST_GAME = <<-JSON
       "name": "Simon",
       "ships": [
         {
-          "type": "LITTLE",
+          "type": "BIG",
           "coords": [
             {
               "row": 2,
@@ -56,3 +56,6 @@ TEST_GAME = <<-JSON
   "turn": "Jacob"
 }
 JSON
+
+require 'minitest/spec'
+require 'minitest/autorun'
