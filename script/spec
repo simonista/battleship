@@ -1,0 +1,2 @@
+#!/usr/bin/env ruby
+Dir.glob("spec/**/*_spec.rb").each{|s| require "#{Dir.pwd}/#{s}"}
