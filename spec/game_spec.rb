@@ -78,14 +78,6 @@ describe Game do
       player = game.players.first
       assert player.game == game
       assert player.name == 'Jacob'
-
-      assert player.ships.size == 1
-      ship = player.ships.first
-      assert ship.type == :LITTLE
-      assert ship.coords == [{ "row" => 0, "col" => 0}, {"row" => 0, "col" => 1}]
-      assert ship.alive
-
-      #assert player.torpedos == [{"row" => 2, "col" => 3}]
     end
 
     it "imports second player" do
@@ -93,13 +85,8 @@ describe Game do
       assert player.game == game
       assert player.name == 'Simon'
 
-      assert player.ships.size == 1
-      ship = player.ships.first
-      assert ship.type == :BIG
-      assert ship.coords == [{ "row" => 2, "col" => 2}, {"row" => 3, "col" => 2}]
-      assert ship.alive
-
-      #assert player.torpedos == [{"row" => 0, "col" => 1}]
+      #TODO: test for torpedo hits after import
+      #TODO: test for destroyed ship after import
     end
   end
 

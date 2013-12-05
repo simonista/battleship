@@ -22,8 +22,7 @@ TEST_GAME = <<-JSON
               "row": 0,
               "col": 1
             }
-          ],
-          "alive": true
+          ]
         }
       ],
       "torpedos": [
@@ -44,18 +43,34 @@ TEST_GAME = <<-JSON
               "row": 3,
               "col": 2
             }
-          ],
-          "alive": true
+          ]
+        },
+        {
+          "type": "HUGE",
+          "coords": [
+            {
+              "row": 3,
+              "col": 3
+            },
+            {
+              "row": 3,
+              "col": 4
+            }
+          ]
         }
       ],
       "torpedos": [
-        {"row": 0, "col": 1}
+        {"row": 0, "col": 1},
+        {"row": 1, "col": 1},
+        {"row": 0, "col": 2}
       ]
     }
   ],
   "turn": "Jacob"
 }
 JSON
+
+TEST_GAME_JSON = JSON.parse(TEST_GAME)
 
 require 'minitest/spec'
 require 'minitest/autorun'
