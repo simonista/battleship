@@ -11,6 +11,10 @@ class Player
     name
   end
 
+  def as_json
+    {}
+  end
+
   def self.from_hash(hash)
     player = Player.new(hash['name'])
     player.ships = hash['ships'].map{|s| Ship.from_hash(s)}

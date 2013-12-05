@@ -6,7 +6,7 @@ require_relative 'torpedo'
 
 class Game
 
-  attr_accessor :width, :height, :turn, :active, :players
+  attr_accessor :width, :height, :turn, :game_state, :players
 
   def scaffold
     @players.first.ships << Ship.new(:LITTLE, [{"row" => 0, "col" => 0}, {"row" => 0, "col" => 1}])
@@ -31,7 +31,7 @@ class Game
   def start
     @players.shuffle!
     @turn = :p1
-    @active = true
+    @state = 'active'
   end
 
   def self.from_json(json)
@@ -46,7 +46,18 @@ class Game
       game.players << player
     end
     game.turn = (hash['turn'] == game.players.first.name ? :p1 : :p2)
+    game.game_state = hash['game_state']
     game
+  end
+
+  def as_json
+    {
+      'players' =>  players.map{|p| p.as_json},
+      'height'  => height,
+      'width'   => width,
+      'turn'    => current_player.name,
+      'game_state'  => game_state
+    }
   end
 
   def opponent_for(player)

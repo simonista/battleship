@@ -6,7 +6,7 @@ TEST_GAME = <<-JSON
 {
   "width": 5,
   "height": 6,
-  "active": true,
+  "game_state": "active",
   "players": [
     {
       "name": "Jacob",

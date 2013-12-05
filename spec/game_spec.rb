@@ -72,6 +72,7 @@ describe Game do
       assert game.height == 6
       assert game.width == 5
       assert game.current_player == game.players.first
+      assert game.game_state == 'active'
     end
 
     it "imports first player" do
@@ -85,17 +86,30 @@ describe Game do
       assert player.game == game
       assert player.name == 'Simon'
 
-      #TODO: test for torpedo hits after import
-      #TODO: test for destroyed ship after import
     end
+
+    it "determines which torpedos are hits" do
+      #TODO: test for torpedo hits after import
+    end
+
+    it "deteremines which torpedos are destroyed" do
+      #TODO: test for destroyed ships after import
+    end
+
+    #TODO: add finished game state validation
+    #TODO: add preparation game state validation
   end
 
+  #TODO: add move validation
+  #TODO: verify game state after checking a move
+  #TODO: add ship placement validation
 
   it "exports game state" do
-    #json = game.as_json
-    #json['players'].size == 2
-    #json['height'] == game.height
-    #json['width'] == game.width
-    #json['turn'] == game.current_player.name
+    json = game.as_json
+    assert json['height'] == game.height
+    assert json['width'] == game.width
+    assert json['turn'] == game.current_player.name
+    assert json['game_state'] == 'active'
+    assert json['players'].size == 2
   end
 end
