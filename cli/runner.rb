@@ -31,10 +31,11 @@ module CLI
         action = @input.readline
         break if action.nil? || action == "quit"
         row, col = action.split(/,/).map(&:strip).map(&:to_i)
-        @engine.take_turn(row, col)
+        @engine.take_turn(@engine.current_player, row, col)
+        break if @engine.winner
       end
 
-      @formatter.salutation
+      @formatter.salutation(@engine.winner)
     end
   end
 end

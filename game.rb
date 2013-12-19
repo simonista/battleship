@@ -12,7 +12,9 @@ class Game
     @players.first.ships << Ship.new(:LITTLE, [{"row" => 0, "col" => 0}, {"row" => 0, "col" => 1}])
     @players.last.ships << Ship.new(:LITTLE, [{"row" => 1, "col" => 2}, {"row" => 2, "col" => 2}])
     @players.first.torpedos << Torpedo.new(2, 3)
-    @players.last.torpedos << Torpedo.new(0, 1)
+    torpedo = Torpedo.new(0, 1)
+    torpedo.hit!
+    @players.last.torpedos << torpedo
   end
 
   def initialize(width, height)
@@ -50,9 +52,9 @@ class Game
     game
   end
 
-  def as_json
+  def to_hash
     {
-      'players' =>  players.map{|p| p.as_json},
+      'players' =>  players.map(&:to_hash),
       'height'  => height,
       'width'   => width,
       'turn'    => current_player.name,
@@ -78,6 +80,9 @@ class Game
 
     toggle_turn!
 
+    # clear winner cache
+    @winner = nil
+
     torpedo
   end
 
@@ -99,5 +104,23 @@ class Game
 
   def current_player
     @turn == :p1 ? @players.first : @players.last
+  end
+
+  def winner
+    @winner ||= @players.detect do |player|
+      opponent = opponent_for(player)
+
+      alive_ship = opponent.ships.detect do |ship|
+        hit_coords = ship.coords.select do |coord|
+          player.torpedos.detect do |torpedo|
+            torpedo.row == coord['row'] && torpedo.col == coord['col']
+          end
+        end
+
+        hit_coords.length < ship.coords.length
+      end
+
+      !alive_ship
+    end
   end
 end

@@ -20,13 +20,14 @@ module CLI
     def display_side(game_state, ships, torpedos)
       game_state['height'].times do |row|
         game_state['width'].times do |col|
-          t_hit = torpedos.detect{|t| t['row'] == row && t['col'] == col}
-          s_hit = ships.detect{|s| s['coords'].include?({"row" => row, "col" => col})}
-          if t_hit && s_hit
+          torpedo = torpedos.detect{|t| t['row'] == row && t['col'] == col}
+          ship = ships.detect{|s| s['coords'].include?({"row" => row, "col" => col})}
+          hit = (torpedo && torpedo['hit']) || (torpedo && ship)
+          if hit
             print 'x'
-          elsif t_hit
+          elsif torpedo
             print 'o'
-          elsif s_hit
+          elsif ship
             print 's'
           else
             print '.'
@@ -36,9 +37,9 @@ module CLI
       end
     end
 
-    def salutation
+    def salutation(winner=nil)
       puts
-      puts "Goodbye"
+      puts winner ? "#{winner} WON!" : "Goodbye"
     end
   end
 end

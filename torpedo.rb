@@ -14,4 +14,12 @@ class Torpedo
   def self.from_hash(hash)
     Torpedo.new(hash['row'], hash['col'])
   end
+
+  def to_hash
+    {
+      'row' => @row,
+      'col' => @col,
+      'hit' => @hit
+    }
+  end
 end

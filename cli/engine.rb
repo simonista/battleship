@@ -32,8 +32,12 @@ module CLI
       @game.current_player.name
     end
 
-    def take_turn(row, col)
-      @game.take_turn(row, col)
+    def take_turn(player_id, row, col)
+      @game.take_turn(player_id, row, col)
+    end
+
+    def winner
+      @game.winner
     end
   end
 end

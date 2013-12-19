@@ -105,7 +105,7 @@ describe Game do
   #TODO: add ship placement validation
 
   it "exports game state" do
-    json = game.as_json
+    json = game.to_hash
     assert json['height'] == game.height
     assert json['width'] == game.width
     assert json['turn'] == game.current_player.name

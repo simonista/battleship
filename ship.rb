@@ -19,6 +19,12 @@ class Ship
     Ship.new(hash['type'].to_sym, hash['coords'])
   end
 
+  def to_hash
+    {
+      'coords' => @coords
+    }
+  end
+
   def hit_by_torpedo?(torpedo)
     hit = coords.detect do |coord|
       coord['row'] == torpedo.row && coord['col'] == torpedo.col
