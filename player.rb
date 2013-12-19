@@ -13,7 +13,7 @@ class Player
 
   def self.from_hash(hash)
     player = Player.new(hash['name'])
-    player.ships = hash['ships'].map{|s| Ship.from_hash(s)}
+    player.ships = hash.key?('ships') ? hash['ships'].map{|s| Ship.from_hash(s)} : {}
     player.torpedos = hash['torpedos'].map{|t| Torpedo.from_hash(t)}
     player
   end

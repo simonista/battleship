@@ -1,0 +1,39 @@
+{
+  "width": 7,
+  "height": 8,
+  "game_state": "active",
+  "players": [
+    {
+      "name": "Jacob",
+      "ships": [
+        {
+          "type": "LITTLE",
+          "coords": [
+            {
+              "row": 0,
+              "col": 0
+            },
+            {
+              "row": 0,
+              "col": 1
+            }
+          ]
+        }
+      ],
+      "torpedos": [
+        {"row": 3, "col": 2, "hit": true},
+        {"row": 3, "col": 3},
+        {"row": 3, "col": 4, "hit": false}
+      ]
+    },
+    {
+      "name": "Simon",
+      "torpedos": [
+        {"row": 0, "col": 1},
+        {"row": 1, "col": 1},
+        {"row": 0, "col": 2}
+      ]
+    }
+  ],
+  "turn": "Simon"
+}

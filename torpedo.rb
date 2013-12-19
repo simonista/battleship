@@ -1,10 +1,10 @@
 class Torpedo
   attr_reader :row, :col, :hit
 
-  def initialize(row, col)
+  def initialize(row, col, hit = nil)
     @row = row
     @col = col
-    @hit = false
+    @hit = hit || false
   end
 
   def hit!
@@ -12,7 +12,7 @@ class Torpedo
   end
 
   def self.from_hash(hash)
-    Torpedo.new(hash['row'], hash['col'])
+    Torpedo.new(hash['row'], hash['col'], hash['hit'])
   end
 
   def to_hash

@@ -6,7 +6,7 @@ describe Ship do
   it "imports a ship" do
     ship.type == "HUGE"
     assert ship.type == :HUGE
-    assert ship.coords == [{ "row" => 3, "col" => 3}, {"row" => 3, "col" => 4}]
+    assert ship.coords == [{ "row" => 3, "col" => 3}, {"row" => 3, "col" => 4}, {"row" => 3, "col" => 5}, {"row" => 3, "col" => 6}]
     assert ship.alive == true
   end
 end

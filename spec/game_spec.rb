@@ -1,7 +1,7 @@
 require_relative "spec_helper"
 
 describe Game do
-  let(:game) { Game.from_json(TEST_GAME) }
+  let(:game) { Game.from_json(read_game('server_active_game')) }
   let(:empty_game) { Game.new(5,5) }
 
   it "can be created from json" do
@@ -76,6 +76,121 @@ describe Game do
 
     it "should be true otherwise" do
       assert game.valid_move?(0,0)
+    end
+  end
+
+  ###
+  # Game Sever Tests
+  ###
+  describe "#game_server" do
+    let(:game) { Game.from_json(read_game('server_active_game')) }
+    it "can be created from json" do
+      game.must_be_instance_of Game
+    end
+
+    it "can look up active player" do
+      game.current_player.must_be_instance_of Player
+    end
+
+    describe "imports state" do
+      it "imports game state" do
+        assert game.players.size == 2
+        assert game.height == 6
+        assert game.width == 5
+        assert game.current_player == game.players.first
+        assert game.game_state == 'active'
+      end
+
+      it "imports first player" do
+        player = game.players.first
+        assert player.game == game
+        assert player.name == 'Jacob'
+      end
+
+      it "imports second player" do
+        player = game.players.last
+        assert player.game == game
+        assert player.name == 'Simon'
+
+      end
+
+      it "determines which torpedos are hits" do
+        #TODO: test for torpedo hits after import
+      end
+
+      it "deteremines which torpedos are destroyed" do
+        #TODO: test for destroyed ships after import
+      end
+
+      #TODO: add finished game state validation
+      #TODO: add preparation game state validation
+    end
+
+    it "exports game state" do
+      json = game.as_json
+      assert json['height'] == game.height
+      assert json['width'] == game.width
+      assert json['turn'] == game.current_player.name
+      assert json['game_state'] == 'active'
+      assert json['players'].size == 2
+    end
+  end
+
+
+  ###
+  # Game Client Tests
+  ###
+  describe "#game_client" do
+    let(:game) { Game.from_json(read_game('client_active_game')) }
+    it "can be created from json" do
+      game.must_be_instance_of Game
+    end
+
+    it "can look up active player" do
+      game.current_player.must_be_instance_of Player
+    end
+
+    describe "imports state" do
+      it "imports game state" do
+        assert game.players.size == 2
+        assert game.height == 8
+        assert game.width == 7
+        assert game.current_player == game.players.last
+        assert game.game_state == 'active'
+      end
+
+      it "imports first player" do
+        player = game.players.first
+        assert player.game == game
+        assert player.name == 'Jacob'
+      end
+
+      it "imports second player" do
+        player = game.players.last
+        assert player.game == game
+        assert player.name == 'Simon'
+
+      end
+
+      it "determines which torpedos are hits" do
+        #TODO: test for torpedo hits after import
+      end
+
+      it "deteremines which torpedos are destroyed" do
+        #TODO: test for destroyed ships after import
+      end
+
+      #TODO: add finished game state validation
+      #TODO: add preparation game state validation
+    end
+
+    it "exports game state" do
+      json = game.as_json
+      assert json['height'] == game.height
+      assert json['width'] == game.width
+      assert json['turn'] == game.current_player.name
+      assert json['game_state'] == 'active'
+      assert json['players'].size == 2
     end
   end
 
