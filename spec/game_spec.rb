@@ -2,6 +2,7 @@ require_relative "spec_helper"
 
 describe Game do
   let(:game) { Game.from_json(TEST_GAME) }
+  let(:empty_game) { Game.new(5,5) }
 
   it "can be created from json" do
     game.must_be_instance_of Game
@@ -9,6 +10,18 @@ describe Game do
 
   it "can look up active player" do
     game.current_player.must_be_instance_of Player
+  end
+
+  describe "#add_player" do
+    it "adds a player to the game" do
+      empty_game.add_player("Fred")
+      assert empty_game.players.detect{|p| p.name == "Fred"} != nil
+    end
+
+    it "sets the game state on the player" do
+      fred = empty_game.add_player("Fred")
+      assert fred.game == empty_game
+    end
   end
 
   describe "#take_turn" do
